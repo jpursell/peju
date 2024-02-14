@@ -30,9 +30,10 @@ function count_letters(n)
         (80, "eighty"),
         (90, "ninety"),
         (100, "hundred"),
-        (1000, "thousand"),
     ])
-    if n <= 20
+    if n == 0
+        return 0
+    elseif n <= 20
         return length(d[n])
     elseif n < 100 && n ÷ 10 * 10 == n
         return length(d[n])
@@ -40,6 +41,19 @@ function count_letters(n)
         tens = n ÷ 10 * 10
         ones = n - tens
         return length(d[tens]) + length(d[ones])
+    elseif n < 1000
+        hundreds = n ÷ 100
+        ret = length(d[hundreds]) + length("hundred")
+        rem = n - hundreds * 100
+        if rem == 0
+            return ret
+        end
+        ret += length("and") + count_letters(rem)
+        return ret
+    elseif n == 1000
+        thousands = n ÷ 1000
+        rem = n - thousands * 1000
+        return length(d[thousands]) + length("thousand")
     else
         error("not implemented")
     end
@@ -71,11 +85,33 @@ end
 # thirty
 @test count_letters(30) == 6
 # thirty one
-@test count_letters(30) == 9
+@test count_letters(31) == 9
 # ninety nine
+@test count_letters(99) == 10
 # one hundred
+@test count_letters(100) == 10
 # one hundred and one
+@test count_letters(101) == 16
 # one hundred and two
+@test count_letters(102) == 16
 # ...
 # two hundred
+@test count_letters(200) == 10
 # two hundred and one
+@test count_letters(201) == 16
+# nine hundred and ninety nine
+@test count_letters(999) == 24
+# one thousand
+@test count_letters(1000) == 11
+
+function p17(last)
+    sum = 0
+    for n in 1:last
+        sum += count_letters(n)
+    end
+    return sum
+end
+
+@test p17(5) == 19
+
+p17()
