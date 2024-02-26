@@ -1,4 +1,4 @@
-function read_names()
+function read_sorted_names()
     file = open("p22/0022_names.txt")
     lines = join(readlines(file))
     ranges = findall(r"\"(.*?)\"", lines)
