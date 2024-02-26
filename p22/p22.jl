@@ -10,4 +10,14 @@ end
 function word_val(word)
     return sum(map((c)->alpha(c), collect(word)))
 end
+
+function p22()
+    # todo double check this
+    sum = 0
+    for (index, name) in enumerate(read_sorted_names())
+        sum += word_val(name) * index
+    end
+    return sum
+end
+
 @test word_val("COLIN") == 53
