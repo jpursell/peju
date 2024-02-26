@@ -2,7 +2,12 @@ function read_names()
     file = open("p22/0022_names.txt")
     lines = join(readlines(file))
     ranges = findall(r"\"(.*?)\"", lines)
-    # return getfield.(collect(matches), :2)
-    return map(x->lines(x), ranges)
+    return sort(map(x->lines[x], ranges))
 end
-read_names()
+function alpha(c)
+    return Int(c) - 64
+end
+function word_val(word)
+    return sum(map((c)->alpha(c), collect(word)))
+end
+@test word_val("COLIN") == 53
