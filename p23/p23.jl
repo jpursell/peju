@@ -22,8 +22,36 @@ function abundant(n)
     return sum(sum_of_divisors(n)) > n
 end
 
+function p23()
+    a = []
+    max_val = 28123
+    for i in 1:max_val
+        if abundant(i)
+            push!(a, i)
+        end
+    end
+    s = Set()
+    for x in a
+        for y in a
+            v = x + y
+            if v > max_val
+                continue
+            end
+            push!(s, x+y)
+        end
+    end
+    t = 0
+    for i in 1:max_val
+        if !(i in s)
+            t += i
+        end
+    end
+    return t
+end
+
+
 @test sum_of_divisors(28) == 28
 @test sum_of_divisors(12) == 16
 @test abundant(12) == true
 
-# function p23()
+p23()
